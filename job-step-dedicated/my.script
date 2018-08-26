@@ -1,0 +1,6 @@
+#!/bin/bash
+srun -l --exclusive -n4 prog1 &
+srun -l --exclusive -n3 prog2 &
+srun -l --exclusive -n1 prog3 &
+srun -l --exclusive -n1 prog4 &
+wait
