@@ -158,7 +158,7 @@ is where I am running
 ```
 ## Multi-core option example
 The following script allocates two nodes with the option "-N2" with these resources: two sockets per node, four cores per socket and one thead for core with the option "-B 2-2:4-4:1-1".
-
+```
 >cat multi-core-options.sh 
 #!/bin/bash
 module load gnu/4.8.5
