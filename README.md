@@ -92,7 +92,7 @@ salloc: Relinquishing job allocation 15769
 ```
 
 ## Simple MPI job example
-The following example shows a simple MPI program called "mpirun" that receives the number of process option "-np" with an environment variable called "$SLURM_NTASKS" as a parameter. In addition, the srun command finds the available nodes and save it on the file name called "MACHINEFILE". Then this file is deleted at the last step.
+The following example shows a simple MPI program called "mpirun" that receives the number of process option "-np" with an environment variable called "$SLURM_NTASKS" as a parameter. In addition, the srun command finds the available nodes and saves it on the file name called "MACHINEFILE". Then this file is deleted at the last step.
 ```
 >test.sh 
 #!/bin/sh
@@ -108,7 +108,7 @@ mpirun -np $SLURM_NTASKS -machinefile $MACHINEFILE mpi-app
 
 rm $MACHINEFILE
 ```
-The following example builds an application with the gcc compiler and then executes the salloc command which allocates 2 nodes with the option "-N2" and four tasks with the option "-n4" (the default assignement is three tasks in the first node and the last task in the second node) and finally executes the test.sh script.
+The following script builds an application with the gcc compiler and then executes the salloc command which allocates 2 nodes with the option "-N2" and four tasks with the option "-n4" (the default assignement is three tasks in the first node and the last task in the second node) and finally executes the test.sh script.
 ```
 >cat simple-mpi-job.sh
 #!/bin/bash
@@ -117,7 +117,7 @@ module load gnu_ompi/1.10.6
 mpicc mpi-app.c -o mpi-app
 salloc -N2 -n4 bash test.sh
 ```
-The following command is used to begin with the job-step-parallel.sh script example.
+The following command is used to begin with the simple-mpi-job.sh script example.
 ```
 >sh simple-mpi-job.sh
 salloc: Pending job allocation 15787
