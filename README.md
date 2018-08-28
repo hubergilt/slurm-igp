@@ -1,5 +1,4 @@
 # Examples of SLURM scripts at IGP's cluster
-======
 
 The SLURM is an open source project which is used to administrate and schedule the system resources for a Linux cluster environment. 
 
@@ -9,7 +8,8 @@ The following scripts are based on the examples from the official SLURM document
  work is to adapt theirs in order to work properly for IGP's cluster.
 
 #### Simple job script
-This basic example allocates eigth tasks and shows the name of the host on each task.
+This basic example allocates eigth tasks with the -n8 option and shows the name of the host on each task.
+The -l option is useful to show the label which refers to the remote task id.
 ```
 >cat simple-job.sh
 srun -n8 -l hostname
@@ -23,11 +23,39 @@ srun -n8 -l hostname
 2: n1
 1: n1
 ```
+
+#### Job step relative
+This example allocates two nodes with the options -N2 eigth tasks and shows the name of the host on each task.
+```
+>test.sh 
+#!/bin/bash
+echo $SLURM_JOB_NODELIST
+srun -lN2 -r2 hostname
+srun -lN2 hostname
+```
+This basic example allocates eigth tasks and shows the name of the host on each task.
+```
+>cat job-step-relative.sh
+salloc -N4 bash  test.sh
+```
+This basic example allocates eigth tasks and shows the name of the host on each task.
+```
+>sh job-step-relative.sh 
+salloc: Granted job allocation 15760
+n[1-4]
+srun: Job step creation temporarily disabled, retrying
+srun: Job step created
+1: n4
+0: n3
+0: n1
+1: n2
+salloc: Relinquishing job allocation 15760
+```
+
 - complex-job
 - different-jobs-exec
 - job-step-dedicated
 - job-step-parallel
-- job-step-relative
 - multi-core-options
 - multiple-program
 - simple-mpi-job
