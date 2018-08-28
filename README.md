@@ -130,10 +130,36 @@ Hello world from processor  n1, rank  2 out of 4 processors
 Hello world from processor  n1, rank  0 out of 4 processors
 salloc: Relinquishing job allocation 15787
 ```
+
+## Different job execution example
+The following script illustres an alternative method to execute a job with two different chunk of code. Which depends of the relative node id to execute one of them. In addition, the environment variable called "$SLURM_NODEID" saves the node id.
+```
+>test.sh 
+#!/bin/sh
+case $SLURM_NODEID in
+     0) echo "I am running on "
+        hostname ;;
+     1) hostname
+        echo "is where I am running" ;;
+esac
+```
+The following script allocates two nodes with the option "-N2" (specifically the nodes n1 and n2 with the option "-wn[1,2]") and then immediately executes the test.sh script.
+```
+>cat different-jobs-exec.sh
+srun -N2 -wn[1,2] bash test.sh
+```
+The command bellow starts the "different-jobs-exec.sh" script and then, the result is showed.
+```
+>sh different-jobs-exec.sh 
+I am running on 
+n2
+n1
+is where I am running
+```
+
 - complex-job
 - different-jobs-exec
 - job-step-dedicated
-- job-step-parallel
 - multi-core-options
 - multiple-program
 

@@ -1,3 +1,4 @@
+#!/bin/sh
 case $SLURM_NODEID in
      0) echo "I am running on "
         hostname ;;
