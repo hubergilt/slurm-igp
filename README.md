@@ -255,8 +255,31 @@ From slave : HELLO
 From slave : HELLO
 ```
 
-- multiple-program
-
+# Multiple program example
+This method is the easiest way in order to parallel some none-parallel program, the script bellow describes various programs into a config file. For instance, the silly.conf file describes three types of programs (hostname, echo task and echo offset) that executes in different defined cores by numbers (it starts at 0).
+```
+> cat silly.conf 
+4-6       hostname
+1,7       echo  task:%t
+0,2-3     echo  offset:%o
+```
+The following script allocates eight tasks and gives the previous "silly.conf" config file with the option "--multi-prog".
+```
+> cat multi-prog-conf.sh 
+srun -n8 -l --multi-prog silly.conf
+```
+The command bellow starts the "multi-prog-conf.sh" script and then, the result is showed.
+```
+> sh multi-prog-conf.sh 
+2: offset:1
+5: n1
+6: n1
+7: task:7
+0: offset:0
+1: task:1
+4: n1
+3: offset:2
+```
 
 For more details about the explanation of this examples, please check the following link:
 [srun documentation](https://slurm.schedmd.com/srun.html "srun command")
