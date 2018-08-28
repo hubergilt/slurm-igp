@@ -7,9 +7,8 @@ Please, check [SLURM Workload Manager](https://slurm.schedmd.com/ "SLURM Officia
 The following scripts are based on the examples from the official SLURM documentation (specifically from the examples from the srun command) and the aim of this
  work is to adapt theirs in order to work properly for IGP's cluster.
 
-#### Simple job script
-This basic example allocates eigth tasks with the -n8 option and shows the name of the host on each task.
-The -l option is useful to show the label which refers to the remote task id.
+### Simple job script example
+This basic example allocates and executes eigth tasks with the "-n8" option and shows the name of the host on each task with the hostname command. Additionally the -l option is useful to show the label which refers to the remote task id.
 ```
 >cat simple-job.sh
 srun -n8 -l hostname
@@ -24,8 +23,9 @@ srun -n8 -l hostname
 1: n1
 ```
 
-#### Job step relative
-This example allocates two nodes with the options -N2 eigth tasks and shows the name of the host on each task.
+### Job step relative example
+This example allocates two nodes with the options "-N2" and executes two tasks and it started at the relative index 2 with the option "-r2" (note that the relative index starts at 0).
+Additionally the second srun command executes two tasks and it start at 0 relative index.
 ```
 >test.sh 
 #!/bin/bash
@@ -33,12 +33,12 @@ echo $SLURM_JOB_NODELIST
 srun -lN2 -r2 hostname
 srun -lN2 hostname
 ```
-This basic example allocates eigth tasks and shows the name of the host on each task.
+This basic example allocates 4 nodes with the option "-N4" and executes the test.sh script.
 ```
 >cat job-step-relative.sh
 salloc -N4 bash  test.sh
 ```
-This basic example allocates eigth tasks and shows the name of the host on each task.
+The following command executes the job-step-relative.sh script.
 ```
 >sh job-step-relative.sh 
 salloc: Granted job allocation 15760
