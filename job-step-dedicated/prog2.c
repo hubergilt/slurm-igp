@@ -3,7 +3,7 @@
 
 int main(void)
 {
-  printf("prog2 : HELLO");
+  printf("From prog2 : HELLO");
   fflush(stdout);
   sleep(12);
 /* fflush(stdout); */ /* not needed as buffers are implicitly flushed on the program's end */

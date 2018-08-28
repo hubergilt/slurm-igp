@@ -7,7 +7,7 @@ int main(void) {
     char hostname[1024];
     gethostname(hostname, 1024);
 
-    printf("prog1 : ");
+    printf("From prog1 : ");
     puts(hostname);
 
     return EXIT_SUCCESS;

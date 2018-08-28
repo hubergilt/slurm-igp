@@ -3,7 +3,7 @@
 
 int main(void)
 {
-  printf("master : HELLO\n");
+  printf("From master : HELLO\n");
   fflush(stdout);
   sleep(12);
 /* fflush(stdout); */ /* not needed as buffers are implicitly flushed on the program's end */
