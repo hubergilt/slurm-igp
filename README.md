@@ -221,8 +221,42 @@ The command bellow starts the "job-step-dedicated.sh" script and then, the resul
 3: From prog1 : n4
 0: From prog3 : HELLO
 ```
-- complex-job
+
+## Complex job example
+This feature is available from slurm's version upper than 17.11, but the script bellow adapt this functionality with two instances of the srun command. In addition this script build the sources of master.c and slave.c programs.
+```
+cat complex-job.sh 
+gcc master.c -o master
+gcc slave.c -o slave
+# original syntaxis is valid from upper than slurm version 17.11
+# srun -n1 -c16 --mem-per-cpu=1gb master : -n16 --mem-per-cpu=1gb slave
+srun -n1 -c16 --mem-per-cpu=1gb master
+srun -n16 --mem-per-cpu=1gb slave
+```
+The command bellow starts the "complex-job.sh" script and then, the result is showed.
+```
+> sh complex-job.sh 
+From master : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+From slave : HELLO
+```
+
 - multiple-program
+
 
 For more details about the explanation of this examples, please check the following link:
 [srun documentation](https://slurm.schedmd.com/srun.html "srun command")
