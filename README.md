@@ -156,11 +156,39 @@ n2
 n1
 is where I am running
 ```
+## Multi-core option example
+The following script allocates two nodes with the option "-N2" with these resources: two sockets per node, four cores per socket and one thead for core with the option "-B 2-2:4-4:1-1".
+
+>cat multi-core-options.sh 
+#!/bin/bash
+module load gnu/4.8.5
+module load gnu_ompi/1.10.6
+mpicc mpi-app.c
+srun -N2 -B 2-2:4-4:1-1 a.out
+```
+The command bellow starts the "multi-core-options.sh" script and then, the result is showed.
+```
+>sh multi-core-options.sh 
+Hello world from processor  n2, rank 15 out of 16 processors
+Hello world from processor  n1, rank  0 out of 16 processors
+Hello world from processor  n1, rank  1 out of 16 processors
+Hello world from processor  n1, rank  2 out of 16 processors
+Hello world from processor  n1, rank  3 out of 16 processors
+Hello world from processor  n1, rank  4 out of 16 processors
+Hello world from processor  n1, rank  5 out of 16 processors
+Hello world from processor  n1, rank  6 out of 16 processors
+Hello world from processor  n1, rank  7 out of 16 processors
+Hello world from processor  n1, rank  8 out of 16 processors
+Hello world from processor  n1, rank  9 out of 16 processors
+Hello world from processor  n1, rank 10 out of 16 processors
+Hello world from processor  n1, rank 11 out of 16 processors
+Hello world from processor  n1, rank 12 out of 16 processors
+Hello world from processor  n1, rank 13 out of 16 processors
+Hello world from processor  n1, rank 14 out of 16 processors
+```
 
 - complex-job
-- different-jobs-exec
 - job-step-dedicated
-- multi-core-options
 - multiple-program
 
 For more details about the explanation of this examples, please check the following link:
