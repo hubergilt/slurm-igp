@@ -8,7 +8,7 @@ The following scripts are based on the examples from the official SLURM document
  work is to adapt theirs in order to work properly for IGP's cluster.
 
 ### Simple job script example
-This basic example allocates and executes eigth tasks with the "-n8" option and shows the name of the host on each task with the hostname command. Additionally the -l option is useful to show the label which refers to the remote task id.
+This basic example allocates and executes eigth tasks with the "-n8" option and shows the name of the host on each task with the hostname command. Additionally the "-l" option is useful to show the label which refers to the remote task id.
 ```
 >cat simple-job.sh
 srun -n8 -l hostname
@@ -25,7 +25,7 @@ srun -n8 -l hostname
 
 ### Job step relative example
 This example allocates two nodes with the options "-N2" and executes two tasks and it started at the relative index 2 with the option "-r2" (note that the relative index starts at 0).
-Additionally the second srun command executes two tasks and it start at 0 relative index.
+Additionally the second srun command executes two tasks and it starts at 0 relative index.
 ```
 >test.sh 
 #!/bin/bash
