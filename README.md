@@ -66,7 +66,7 @@ squeue
 squeue -s
 wait
 ```
-This basic example allocates 4 nodes with the option "-N4" and executes the test.sh script.
+This basic example allocates 4 nodes with the option "-N4" and configure 2 tasks per node with the option "--ntasks-per-node" (otherwise the default is one task per node) and executes the test.sh script.
 ```
 >cat job-step-parallel.sh
 salloc -N4 --ntasks-per-node=2 bash test.sh
@@ -91,13 +91,51 @@ srun: Job step created
 salloc: Relinquishing job allocation 15769
 ```
 
+## Simple MPI job example
+The following example shows a simple MPI program called "mpirun" that receives the number of process option "-np" with an environment variable called "$SLURM_NTASKS" as a parameter. In addition, the srun command finds the available nodes and save it on the file name called "MACHINEFILE". Then this file is deleted at the last step.
+```
+>test.sh 
+#!/bin/sh
+MACHINEFILE="nodes.$SLURM_JOB_ID"
+
+# Generate Machinefile for mpi such that hosts are in the same
+#  order as if run via srun
+#
+srun -l /bin/hostname | sort -n | awk '{print $2}' > $MACHINEFILE
+
+# Run using generated Machine file:
+mpirun -np $SLURM_NTASKS -machinefile $MACHINEFILE mpi-app
+
+rm $MACHINEFILE
+```
+The following example builds an application with the gcc compiler and then executes the salloc command which allocates 2 nodes with the option "-N2" and four tasks with the option "-n4" (the default assignement is three tasks in the first node and the last task in the second node) and finally executes the test.sh script.
+```
+>cat simple-mpi-job.sh
+#!/bin/bash
+module load gnu/4.8.5
+module load gnu_ompi/1.10.6
+mpicc mpi-app.c -o mpi-app
+salloc -N2 -n4 bash test.sh
+```
+The following command is used to begin with the job-step-parallel.sh script example.
+```
+>sh simple-mpi-job.sh
+salloc: Pending job allocation 15787
+salloc: job 15787 queued and waiting for resources
+salloc: job 15787 has been allocated resources
+salloc: Granted job allocation 15787
+Hello world from processor  n2, rank  3 out of 4 processors
+Hello world from processor  n1, rank  1 out of 4 processors
+Hello world from processor  n1, rank  2 out of 4 processors
+Hello world from processor  n1, rank  0 out of 4 processors
+salloc: Relinquishing job allocation 15787
+```
 - complex-job
 - different-jobs-exec
 - job-step-dedicated
 - job-step-parallel
 - multi-core-options
 - multiple-program
-- simple-mpi-job
 
 For more details about the explanation of this examples, please check the following link:
 [srun documentation](https://slurm.schedmd.com/srun.html "srun command")
