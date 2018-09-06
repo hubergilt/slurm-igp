@@ -443,6 +443,6 @@ Step-id 2 : Hello world with python from node n15, rank  2 out of 8 processors
 Step-id 2 : Hello world with python from node n15, rank  5 out of 8 processors
 Step-id 2 : Hello world with python from node n15, rank  1 out of 8 processors
 ```
-
-	
+For more details about the available options, please check the following link:
+[sbatch documentation](https://slurm.schedmd.com/sbatch.html "sbatch command")
 
