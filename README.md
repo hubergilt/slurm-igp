@@ -286,25 +286,14 @@ For more details about the explanation of the previous examples, please check th
 
 # MPI scripts templates for IGP's cluster
 
-The following scripts templates were written for the users of IGP's cluster in order to help them to  build their own MPI scripts.
+The following scripts templates were written for the users of IGP's cluster in order to help them to build their own MPI scripts, which are configured with eight tasks and three job steps. In addition, those MPI scripts are using gcc and intel compilers and also python programming language.
 
 ## MPI hello world example with gcc compiler
 
-The ...
+The bellow mpi_job.sh script is configured with job name as "mpi_gcc", partition name as "any2", output file as "slurm-%j.out", error file as "slurm-%j.err" and numbers of tasks "ntasks" as eigth. The following module commands setup the gcc compiller amd openMPI library and three srun commands launch an job step each with diferent numbers of tasks as 3, 5 and 8 with the option "n".
 
 ```
-> cat mpi_hello_world_gnu.sh 
-#!/bin/bash
-module load gnu/4.8.5
-module load gnu_ompi/1.10.6
-mpicc mpi_hello_world.c -o mpi_hello_world.exe 
-sbatch mpi_job.sh
-```
-
-Other ...
-
-```
-> cat mpi-templates/mpi_hello_world_gnu/mpi_job.sh 
+> cat mpi_job.sh 
 #!/bin/bash
 #SBATCH --job-name=mpi_gcc
 #SBATCH --partition=any2
@@ -319,12 +308,24 @@ srun -n 5 mpi_hello_world.exe "Step-id 1"
 srun -n 8 mpi_hello_world.exe "Step-id 2"
 ```
 
-Output ...
+Other ...
+
+```
+> cat mpi_hello_world_gnu.sh 
+#!/bin/bash
+module load gnu/4.8.5
+module load gnu_ompi/1.10.6
+mpicc mpi_hello_world.c -o mpi_hello_world.exe 
+sbatch mpi_job.sh
+```
+Exec ...
 
 ```
 sh mpi_hello_world_gnu.sh 
 Submitted batch job 16205
 ```
+Output ...
+
 ```
 > cat slurm-16205.out
 Step-id 0 : Hello world with gnu from node n15, rank  0 out of 3 processors
