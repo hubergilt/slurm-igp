@@ -290,7 +290,7 @@ The following scripts templates were written for the users of IGP's cluster in o
 
 ## MPI hello world example with gcc compiler
 
-The bellow mpi_job.sh script is configured with job name as "mpi_gcc", partition name as "any2", output file as "slurm-%j.out", error file as "slurm-%j.err" and number of tasks "ntasks" as eigth. The following module commands setup the gcc compiler and openMPI library. The three srun commands launch an job step each one with different numbers of tasks as 3, 5 and 8 with the option "n".
+The bellow "mpi_job.sh" script is configured with job name as "mpi_gcc", partition name as "any2", output file as "slurm-%j.out", error file as "slurm-%j.err" and number of tasks "ntasks" as eigth. The following module commands setup the gcc compiler and openMPI library. The three srun commands launch an job step each one with different numbers of tasks as 3, 5 and 8 with the option "n".
 
 ```
 > cat mpi_job.sh 
@@ -307,9 +307,7 @@ srun -n 3 mpi_hello_world.exe "Step-id 0"
 srun -n 5 mpi_hello_world.exe "Step-id 1"
 srun -n 8 mpi_hello_world.exe "Step-id 2"
 ```
-
-Other ...
-
+The bellow "mpi_hello_world_gnu.sh" script compiles source code and summits the previous script into the cluster's resource manager.
 ```
 > cat mpi_hello_world_gnu.sh 
 #!/bin/bash
@@ -318,14 +316,13 @@ module load gnu_ompi/1.10.6
 mpicc mpi_hello_world.c -o mpi_hello_world.exe 
 sbatch mpi_job.sh
 ```
-Exec ...
+The command bellow starts the "mpi_hello_world_gnu.sh" script and then, an advice is showed.
 
 ```
 > sh mpi_hello_world_gnu.sh 
 Submitted batch job 16205
 ```
-Output ...
-
+The result is saved in the output file. For instance, for this example is "slurm-16205.out".
 ```
 > cat slurm-16205.out
 Step-id 0 : Hello world with gnu from node n15, rank  0 out of 3 processors
