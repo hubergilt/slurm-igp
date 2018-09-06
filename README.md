@@ -290,7 +290,7 @@ The following scripts templates were written for the users of IGP's cluster in o
 
 ## MPI hello world example with gcc compiler
 
-The bellow mpi_job.sh script is configured with job name as "mpi_gcc", partition name as "any2", output file as "slurm-%j.out", error file as "slurm-%j.err" and numbers of tasks "ntasks" as eigth. The following module commands setup the gcc compiller amd openMPI library and three srun commands launch an job step each with diferent numbers of tasks as 3, 5 and 8 with the option "n".
+The bellow mpi_job.sh script is configured with job name as "mpi_gcc", partition name as "any2", output file as "slurm-%j.out", error file as "slurm-%j.err" and number of tasks "ntasks" as eigth. The following module commands setup the gcc compiler and openMPI library. The three srun commands launch an job step each one with different numbers of tasks as 3, 5 and 8 with the option "n".
 
 ```
 > cat mpi_job.sh 
