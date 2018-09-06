@@ -322,7 +322,7 @@ The command bellow starts the "mpi_hello_world_gnu.sh" script and then, an advic
 > sh mpi_hello_world_gnu.sh 
 Submitted batch job 16205
 ```
-The result is saved in the output file. For instance, for this example is "slurm-16205.out".
+The result is saved in the output file. For instance, this example is "slurm-16205.out".
 ```
 > cat slurm-16205.out
 Step-id 0 : Hello world with gnu from node n15, rank  0 out of 3 processors
