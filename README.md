@@ -255,7 +255,7 @@ From slave : HELLO
 From slave : HELLO
 ```
 
-# Multiple program example
+## Multiple program example
 This method is the easiest way in order to parallel some none-parallel program, the script bellow describes various programs into a config file. For instance, the silly.conf file describes three types of programs (hostname, echo task and echo offset) that executes in different defined cores by numbers (it starts at 0).
 ```
 > cat silly.conf 
@@ -283,3 +283,64 @@ The command bellow starts the "multi-prog-conf.sh" script and then, the result i
 
 For more details about the explanation of this examples, please check the following link:
 [srun documentation](https://slurm.schedmd.com/srun.html "srun command")
+
+# MPI scripts templates for IGP's cluster
+
+The following scripts templates were written for the users of IGP's cluster in order to help them to  build their own MPI scripts.
+
+## MPI hello world example with gcc compiler
+
+The ...
+
+```
+> cat mpi_hello_world_gnu.sh 
+#!/bin/bash
+module load gnu/4.8.5
+module load gnu_ompi/1.10.6
+mpicc mpi_hello_world.c -o mpi_hello_world.exe 
+sbatch mpi_job.sh
+```
+
+Other ...
+
+```
+> cat mpi-templates/mpi_hello_world_gnu/mpi_job.sh 
+#!/bin/bash
+#SBATCH --job-name=mpi_gcc
+#SBATCH --partition=any2
+#SBATCH --output=slurm-%j.out
+#SBATCH --error=slurm-%j.err
+#SBATCH --ntasks=8
+module purge
+module load gnu/4.8.5
+module load gnu_ompi/1.10.6
+srun -n 3 mpi_hello_world.exe "Step-id 0"
+srun -n 5 mpi_hello_world.exe "Step-id 1"
+srun -n 8 mpi_hello_world.exe "Step-id 2"
+```
+
+Output ...
+
+```
+sh mpi_hello_world_gnu.sh 
+Submitted batch job 16205
+```
+```
+lurm-16205.out
+Step-id 0 : Hello world with gnu from node n15, rank  0 out of 3 processors
+Step-id 0 : Hello world with gnu from node n15, rank  1 out of 3 processors
+Step-id 0 : Hello world with gnu from node n15, rank  2 out of 3 processors
+Step-id 1 : Hello world with gnu from node n15, rank  0 out of 5 processors
+Step-id 1 : Hello world with gnu from node n15, rank  1 out of 5 processors
+Step-id 1 : Hello world with gnu from node n15, rank  2 out of 5 processors
+Step-id 1 : Hello world with gnu from node n15, rank  3 out of 5 processors
+Step-id 1 : Hello world with gnu from node n15, rank  4 out of 5 processors
+Step-id 2 : Hello world with gnu from node n15, rank  0 out of 8 processors
+Step-id 2 : Hello world with gnu from node n15, rank  1 out of 8 processors
+Step-id 2 : Hello world with gnu from node n15, rank  2 out of 8 processors
+Step-id 2 : Hello world with gnu from node n15, rank  3 out of 8 processors
+Step-id 2 : Hello world with gnu from node n15, rank  4 out of 8 processors
+Step-id 2 : Hello world with gnu from node n15, rank  5 out of 8 processors
+Step-id 2 : Hello world with gnu from node n15, rank  6 out of 8 processors
+Step-id 2 : Hello world with gnu from node n15, rank  7 out of 8 processors
+```
