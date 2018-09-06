@@ -326,7 +326,7 @@ sh mpi_hello_world_gnu.sh
 Submitted batch job 16205
 ```
 ```
-lurm-16205.out
+> cat slurm-16205.out
 Step-id 0 : Hello world with gnu from node n15, rank  0 out of 3 processors
 Step-id 0 : Hello world with gnu from node n15, rank  1 out of 3 processors
 Step-id 0 : Hello world with gnu from node n15, rank  2 out of 3 processors
