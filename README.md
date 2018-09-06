@@ -307,7 +307,7 @@ srun -n 3 mpi_hello_world.exe "Step-id 0"
 srun -n 5 mpi_hello_world.exe "Step-id 1"
 srun -n 8 mpi_hello_world.exe "Step-id 2"
 ```
-The bellow "mpi_hello_world_gnu.sh" script compiles source code and summits the previous script into the cluster's resource manager.
+The bellow "mpi_hello_world_gnu.sh" script compiles source code and summits the previous "mpi_job.sh" script into the cluster's resource manager.
 ```
 > cat mpi_hello_world_gnu.sh 
 #!/bin/bash
