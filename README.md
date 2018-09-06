@@ -228,7 +228,7 @@ This feature is available from slurm's version upper than 17.11, but the script 
 cat complex-job.sh 
 gcc master.c -o master
 gcc slave.c -o slave
-# original syntaxis is valid from upper than slurm version 17.11
+# the original syntax is valid only since slurm version 17.11
 # srun -n1 -c16 --mem-per-cpu=1gb master : -n16 --mem-per-cpu=1gb slave
 srun -n1 -c16 --mem-per-cpu=1gb master
 srun -n16 --mem-per-cpu=1gb slave
@@ -281,7 +281,7 @@ The command bellow starts the "multi-prog-conf.sh" script and then, the result i
 3: offset:2
 ```
 
-For more details about the explanation of this examples, please check the following link:
+For more details about the explanation of the previous examples, please check the following link:
 [srun documentation](https://slurm.schedmd.com/srun.html "srun command")
 
 # MPI scripts templates for IGP's cluster
