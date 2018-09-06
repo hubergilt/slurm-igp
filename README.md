@@ -396,5 +396,53 @@ Step-id 2 : Hello world with intel from node n15, rank  5 out of 8 processors
 Step-id 2 : Hello world with intel from node n15, rank  6 out of 8 processors
 Step-id 2 : Hello world with intel from node n15, rank  7 out of 8 processors
 ```
+## MPI hello world example with python
 
+The bellow "mpi_job.sh" script is configured with job name as "mpi_python", partition name as "any2", output file as "slurm-%j.out", error file as "slurm-%j.err" and number of tasks "ntasks" as eigth. The following module commands setup the intel compiler and openMPI library. The three srun commands launch an job step each one with different numbers of tasks as 3, 5 and 8 with the option "n".
+
+```
+> cat  mpi_job.sh 
+#!/bin/bash
+#SBATCH --job-name=mpi_python
+#SBATCH --partition=any2
+#SBATCH --output=slurm-%j.out
+#SBATCH --error=slurm-%j.err
+#SBATCH --ntasks=24
+srun -n 3  python mpi_hello_world.py "Step-id 0"
+srun -n 5  python mpi_hello_world.py "Step-id 1"
+srun -n 8  python mpi_hello_world.py "Step-id 2"
+```
+The bellow "mpi_hello_world_python.sh" script summits the previous "mpi_job.sh" script into the cluster's resource manager.
+```
+> cat mpi_hello_world_python.sh 
+#!/bin/bash
+sbatch mpi_job.sh
+```
+The command bellow starts the "mpi_hello_world_python.sh" script and then, an advice is showed.
+```
+> sh mpi_hello_world_python.sh 
+Submitted batch job 16207
+```
+The result is saved in the output file. For instance, in this example is "slurm-16207.out". The first three lines are the output from the first job step, then the following five lines correspond to the second job step and finally the last eight lines are the output from the third job step.
+```
+> cat slurm-16207.out 
+Step-id 0 : Hello world with python from node n15, rank  1 out of 3 processors
+Step-id 0 : Hello world with python from node n15, rank  2 out of 3 processors
+Step-id 0 : Hello world with python from node n15, rank  0 out of 3 processors
+Step-id 1 : Hello world with python from node n15, rank  1 out of 5 processors
+Step-id 1 : Hello world with python from node n15, rank  2 out of 5 processors
+Step-id 1 : Hello world with python from node n15, rank  3 out of 5 processors
+Step-id 1 : Hello world with python from node n15, rank  4 out of 5 processors
+Step-id 1 : Hello world with python from node n15, rank  0 out of 5 processors
+Step-id 2 : Hello world with python from node n15, rank  3 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  6 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  7 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  4 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  0 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  2 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  5 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  1 out of 8 processors
+```
+
+	
 
