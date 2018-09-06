@@ -321,7 +321,7 @@ sbatch mpi_job.sh
 Exec ...
 
 ```
-sh mpi_hello_world_gnu.sh 
+> sh mpi_hello_world_gnu.sh 
 Submitted batch job 16205
 ```
 Output ...
