@@ -286,25 +286,14 @@ For more details about the explanation of the previous examples, please check th
 
 # MPI scripts templates for IGP's cluster
 
-The following scripts templates were written for the users of IGP's cluster in order to help them to  build their own MPI scripts.
+The following scripts templates were written for the users of IGP's cluster in order to help them to build their own MPI scripts, which are configured with eight tasks and three job steps. In addition, those MPI scripts are using gcc and intel compilers and also python programming language.
 
 ## MPI hello world example with gcc compiler
 
-The ...
+The bellow "mpi_job.sh" script is configured with job name as "mpi_gcc", partition name as "any2", output file as "slurm-%j.out", error file as "slurm-%j.err" and number of tasks "ntasks" as eigth. The following module commands setup the gcc compiler and openMPI library. The three srun commands launch an job step each one with different numbers of tasks as 3, 5 and 8 with the option "n".
 
 ```
-> cat mpi_hello_world_gnu.sh 
-#!/bin/bash
-module load gnu/4.8.5
-module load gnu_ompi/1.10.6
-mpicc mpi_hello_world.c -o mpi_hello_world.exe 
-sbatch mpi_job.sh
-```
-
-Other ...
-
-```
-> cat mpi-templates/mpi_hello_world_gnu/mpi_job.sh 
+> cat mpi_job.sh 
 #!/bin/bash
 #SBATCH --job-name=mpi_gcc
 #SBATCH --partition=any2
@@ -318,13 +307,22 @@ srun -n 3 mpi_hello_world.exe "Step-id 0"
 srun -n 5 mpi_hello_world.exe "Step-id 1"
 srun -n 8 mpi_hello_world.exe "Step-id 2"
 ```
-
-Output ...
+The bellow "mpi_hello_world_gnu.sh" script compiles source code and summits the previous "mpi_job.sh" script into the cluster's resource manager.
+```
+> cat mpi_hello_world_gnu.sh 
+#!/bin/bash
+module load gnu/4.8.5
+module load gnu_ompi/1.10.6
+mpicc mpi_hello_world.c -o mpi_hello_world.exe 
+sbatch mpi_job.sh
+```
+The command bellow starts the "mpi_hello_world_gnu.sh" script and then, an advice is showed.
 
 ```
-sh mpi_hello_world_gnu.sh 
+> sh mpi_hello_world_gnu.sh 
 Submitted batch job 16205
 ```
+The result is saved in the output file. For instance, in this example is "slurm-16205.out". The first three lines are the output from the first job step, then the following five lines correspond to the second job step and finally the last eight lines are the output from the third job step.
 ```
 > cat slurm-16205.out
 Step-id 0 : Hello world with gnu from node n15, rank  0 out of 3 processors
@@ -344,3 +342,107 @@ Step-id 2 : Hello world with gnu from node n15, rank  5 out of 8 processors
 Step-id 2 : Hello world with gnu from node n15, rank  6 out of 8 processors
 Step-id 2 : Hello world with gnu from node n15, rank  7 out of 8 processors
 ```
+
+## MPI hello world example with intel compiler
+
+The bellow "mpi_job.sh" script is configured with job name as "mpi_intel", partition name as "any2", output file as "slurm-%j.out", error file as "slurm-%j.err" and number of tasks "ntasks" as eigth. The following module commands setup the intel compiler and openMPI library. The three srun commands launch an job step each one with different numbers of tasks as 3, 5 and 8 with the option "n".
+
+```
+> cat mpi_job.sh 
+#!/bin/bash
+#SBATCH --job-name=mpi_intel
+#SBATCH --partition=any2
+#SBATCH --output=slurm-%j.out
+#SBATCH --error=slurm-%j.err
+#SBATCH --ntasks=24
+module purge
+module load intel/16.0.3
+module load intel_ompi/1.10.6
+srun -n 3  mpi_hello_world.exe "Step-id 0"
+srun -n 5  mpi_hello_world.exe "Step-id 1"
+srun -n 8  mpi_hello_world.exe "Step-id 2"
+```
+The bellow "mpi_hello_world_intel.sh" script compiles source code and summits the previous "mpi_job.sh" script into the cluster's resource manager.
+```
+> cat mpi_hello_world_intel.sh 
+#!/bin/bash
+module load intel/16.0.3
+module load intel_ompi/1.10.6
+mpicc mpi_hello_world.c -o mpi_hello_world.exe 
+sbatch mpi_job.sh
+```
+The command bellow starts the "mpi_hello_world_intel.sh" script and then, an advice is showed.
+```
+> sh mpi_hello_world_intel.sh 
+Submitted batch job 16206
+```
+The result is saved in the output file. For instance, in this example is "slurm-16206.out". The first three lines are the output from the first job step, then the following five lines correspond to the second job step and finally the last eight lines are the output from the third job step.
+```
+> cat slurm-16206.out 
+Step-id 0 : Hello world with intel from node n15, rank  0 out of 3 processors
+Step-id 0 : Hello world with intel from node n15, rank  1 out of 3 processors
+Step-id 0 : Hello world with intel from node n15, rank  2 out of 3 processors
+Step-id 1 : Hello world with intel from node n15, rank  0 out of 5 processors
+Step-id 1 : Hello world with intel from node n15, rank  1 out of 5 processors
+Step-id 1 : Hello world with intel from node n15, rank  3 out of 5 processors
+Step-id 1 : Hello world with intel from node n15, rank  4 out of 5 processors
+Step-id 1 : Hello world with intel from node n15, rank  2 out of 5 processors
+Step-id 2 : Hello world with intel from node n15, rank  0 out of 8 processors
+Step-id 2 : Hello world with intel from node n15, rank  1 out of 8 processors
+Step-id 2 : Hello world with intel from node n15, rank  2 out of 8 processors
+Step-id 2 : Hello world with intel from node n15, rank  3 out of 8 processors
+Step-id 2 : Hello world with intel from node n15, rank  4 out of 8 processors
+Step-id 2 : Hello world with intel from node n15, rank  5 out of 8 processors
+Step-id 2 : Hello world with intel from node n15, rank  6 out of 8 processors
+Step-id 2 : Hello world with intel from node n15, rank  7 out of 8 processors
+```
+## MPI hello world example with python
+
+The bellow "mpi_job.sh" script is configured with job name as "mpi_python", partition name as "any2", output file as "slurm-%j.out", error file as "slurm-%j.err" and number of tasks "ntasks" as eigth. The following module commands setup the intel compiler and openMPI library. The three srun commands launch an job step each one with different numbers of tasks as 3, 5 and 8 with the option "n".
+
+```
+> cat  mpi_job.sh 
+#!/bin/bash
+#SBATCH --job-name=mpi_python
+#SBATCH --partition=any2
+#SBATCH --output=slurm-%j.out
+#SBATCH --error=slurm-%j.err
+#SBATCH --ntasks=24
+srun -n 3  python mpi_hello_world.py "Step-id 0"
+srun -n 5  python mpi_hello_world.py "Step-id 1"
+srun -n 8  python mpi_hello_world.py "Step-id 2"
+```
+The bellow "mpi_hello_world_python.sh" script summits the previous "mpi_job.sh" script into the cluster's resource manager.
+```
+> cat mpi_hello_world_python.sh 
+#!/bin/bash
+sbatch mpi_job.sh
+```
+The command bellow starts the "mpi_hello_world_python.sh" script and then, an advice is showed.
+```
+> sh mpi_hello_world_python.sh 
+Submitted batch job 16207
+```
+The result is saved in the output file. For instance, in this example is "slurm-16207.out". The first three lines are the output from the first job step, then the following five lines correspond to the second job step and finally the last eight lines are the output from the third job step.
+```
+> cat slurm-16207.out 
+Step-id 0 : Hello world with python from node n15, rank  1 out of 3 processors
+Step-id 0 : Hello world with python from node n15, rank  2 out of 3 processors
+Step-id 0 : Hello world with python from node n15, rank  0 out of 3 processors
+Step-id 1 : Hello world with python from node n15, rank  1 out of 5 processors
+Step-id 1 : Hello world with python from node n15, rank  2 out of 5 processors
+Step-id 1 : Hello world with python from node n15, rank  3 out of 5 processors
+Step-id 1 : Hello world with python from node n15, rank  4 out of 5 processors
+Step-id 1 : Hello world with python from node n15, rank  0 out of 5 processors
+Step-id 2 : Hello world with python from node n15, rank  3 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  6 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  7 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  4 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  0 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  2 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  5 out of 8 processors
+Step-id 2 : Hello world with python from node n15, rank  1 out of 8 processors
+```
+For more details about the available options, please check the following link:
+[sbatch documentation](https://slurm.schedmd.com/sbatch.html "sbatch command")
+
